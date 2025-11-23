@@ -1,3 +1,4 @@
+export const revalidate = 3600
 import {PortableText, type PortableTextComponents} from '@portabletext/react'
 import type {PortableTextBlock} from '@portabletext/types'
 import {differenceInYears, format, parseISO} from 'date-fns'
@@ -170,6 +171,7 @@ const narrativeComponents: PortableTextComponents = {
 export default async function Page() {
   const {data} = await sanityFetch({
     query: resumeQuery,
+    tags: ['resume'],
   })
   const resume = (data ?? null) as Resume | null
 
@@ -190,11 +192,24 @@ export default async function Page() {
   const stats = [
     {
       label: 'Years shipping',
-      value: yearsOfExperience ? `${yearsOfExperience}+` : experiences.length ? `${experiences.length} roles` : '—',
+      value: yearsOfExperience
+        ? `${yearsOfExperience}+`
+        : experiences.length
+          ? `${experiences.length} roles`
+          : '—',
     },
-    {label: 'Featured projects', value: projects.length ? projects.length.toString().padStart(2, '0') : '—'},
-    {label: 'Publications', value: publications.length ? publications.length.toString().padStart(2, '0') : '—'},
-    {label: 'Languages', value: languages.length ? languages.length.toString().padStart(2, '0') : '—'},
+    {
+      label: 'Featured projects',
+      value: projects.length ? projects.length.toString().padStart(2, '0') : '—',
+    },
+    {
+      label: 'Publications',
+      value: publications.length ? publications.length.toString().padStart(2, '0') : '—',
+    },
+    {
+      label: 'Languages',
+      value: languages.length ? languages.length.toString().padStart(2, '0') : '—',
+    },
   ]
 
   return (
@@ -204,7 +219,9 @@ export default async function Page() {
         className="container grid gap-12 px-4 pb-20 pt-10 sm:px-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:pt-16"
       >
         <div className="space-y-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-gray-500">Portfolio in real time</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-gray-500">
+            Portfolio in real time
+          </p>
           <div>
             <h1 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
               {resume.fullName || 'Your name here'}
@@ -224,14 +241,6 @@ export default async function Page() {
             >
               View experience
             </a>
-            <a
-              href={studioUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-gray-900 transition-colors duration-200 hover:border-gray-900"
-            >
-              Edit content
-            </a>
           </div>
         </div>
         <div className="rounded-3xl border border-gray-100 bg-gray-50 p-8">
@@ -240,12 +249,15 @@ export default async function Page() {
             {stats.map((stat) => (
               <li key={stat.label} className="rounded-2xl bg-white p-5 shadow-sm">
                 <p className="text-3xl font-semibold text-gray-900">{stat.value}</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.4em] text-gray-500">{stat.label}</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.4em] text-gray-500">
+                  {stat.label}
+                </p>
               </li>
             ))}
           </ul>
           <p className="mt-6 text-sm text-gray-600">
-            Every detail is managed in your private editing workspace. Visual Editing keeps this page live as you draft new copy.
+            Every detail is managed in your private editing workspace. Visual Editing keeps this
+            page live as you draft new copy.
           </p>
         </div>
       </section>
@@ -277,11 +289,16 @@ function ExperienceSection({experiences}: {experiences: Experience[]}) {
         />
         <div className="mt-12 space-y-8">
           {experiences.map((experience) => (
-            <article key={experience._id} className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm">
+            <article
+              key={experience._id}
+              className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm"
+            >
               <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-[0.4em] text-gray-500">
-                    {experience.employmentType ? employmentLabels[experience.employmentType] : 'Experience'}
+                    {experience.employmentType
+                      ? employmentLabels[experience.employmentType]
+                      : 'Experience'}
                     {experience.industryFocus ? ` • ${experience.industryFocus}` : ''}
                   </p>
                   <h3 className="mt-1 text-2xl font-semibold text-gray-900">{experience.role}</h3>
@@ -323,7 +340,10 @@ function ProjectsSection({projects}: {projects: Project[]}) {
       />
       <div className="mt-12 grid gap-8 lg:grid-cols-2">
         {projects.map((project) => (
-          <article key={project._id} className="flex flex-col rounded-3xl border border-gray-100 bg-white p-8 shadow-sm">
+          <article
+            key={project._id}
+            className="flex flex-col rounded-3xl border border-gray-100 bg-white p-8 shadow-sm"
+          >
             <div className="flex flex-col gap-4">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -372,7 +392,13 @@ function ProjectsSection({projects}: {projects: Project[]}) {
   )
 }
 
-function SkillsSection({skillCategories, languages}: {skillCategories: SkillCategory[]; languages: LanguageDoc[]}) {
+function SkillsSection({
+  skillCategories,
+  languages,
+}: {
+  skillCategories: SkillCategory[]
+  languages: LanguageDoc[]
+}) {
   if (!skillCategories.length && !languages.length) {
     return null
   }
@@ -388,17 +414,27 @@ function SkillsSection({skillCategories, languages}: {skillCategories: SkillCate
         <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           <div className="grid gap-6 md:grid-cols-2">
             {skillCategories.map((category) => (
-              <div key={category._id} className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">{category.label}</p>
+              <div
+                key={category._id}
+                className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm"
+              >
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+                  {category.label}
+                </p>
                 <TagList className="mt-4" items={category.skills} />
               </div>
             ))}
           </div>
           <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">Languages</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+              Languages
+            </p>
             <ul className="mt-4 space-y-4">
               {languages.map((language) => (
-                <li key={language._id} className="flex items-center justify-between rounded-2xl bg-gray-50 p-4">
+                <li
+                  key={language._id}
+                  className="flex items-center justify-between rounded-2xl bg-gray-50 p-4"
+                >
                   <span className="text-lg font-semibold text-gray-900">{language.name}</span>
                   <span className="text-xs uppercase tracking-[0.4em] text-gray-500">
                     {language.proficiency ? proficiencyLabels[language.proficiency] : ''}
@@ -436,7 +472,10 @@ function CredentialsSection({
       <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="space-y-6">
           {education.map((item) => (
-            <div key={item._id} className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+            <div
+              key={item._id}
+              className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm"
+            >
               <div className="flex flex-col gap-2">
                 <p className="text-xs uppercase tracking-[0.4em] text-gray-500">
                   {item.studyType ? studyLabels[item.studyType] : 'Education'}
@@ -455,7 +494,9 @@ function CredentialsSection({
               <NarrativeCopy className="mt-4 text-sm text-gray-700" value={item.summary} />
               {item.modules?.length ? (
                 <div className="mt-4">
-                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500">Highlighted modules</p>
+                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500">
+                    Highlighted modules
+                  </p>
                   <TagList className="mt-3" items={item.modules} />
                 </div>
               ) : null}
@@ -465,7 +506,9 @@ function CredentialsSection({
         <div className="space-y-6">
           {certifications.length ? (
             <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">Certifications</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+                Certifications
+              </p>
               <ul className="mt-4 space-y-4">
                 {certifications.map((cert) => (
                   <li key={cert._id} className="rounded-2xl bg-gray-50 p-4">
@@ -497,7 +540,9 @@ function CredentialsSection({
           ) : null}
           {publications.length ? (
             <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">Publications</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+                Publications
+              </p>
               <ul className="mt-4 space-y-4">
                 {publications.map((publication) => (
                   <li key={publication._id} className="rounded-2xl bg-gray-50 p-4">
@@ -507,10 +552,14 @@ function CredentialsSection({
                         {[publication.publisher, publication.location].filter(Boolean).join(' • ')}
                       </p>
                       <p className="text-xs font-mono uppercase tracking-[0.3em] text-gray-500">
-                        {publication.category ? `${publicationCategoryLabels[publication.category]} • ` : ''}
+                        {publication.category
+                          ? `${publicationCategoryLabels[publication.category]} • `
+                          : ''}
                         {formatDateValue(publication.publishedAt, 'MMM d, yyyy')}
                       </p>
-                      {publication.summary ? <p className="text-sm text-gray-700">{publication.summary}</p> : null}
+                      {publication.summary ? (
+                        <p className="text-sm text-gray-700">{publication.summary}</p>
+                      ) : null}
                       {publication.citation ? (
                         <p className="text-xs text-gray-500">Citation: {publication.citation}</p>
                       ) : null}
@@ -543,7 +592,13 @@ function CredentialsSection({
   )
 }
 
-function HighlightsList({highlights, className}: {highlights?: ImpactHighlight[]; className?: string}) {
+function HighlightsList({
+  highlights,
+  className,
+}: {
+  highlights?: ImpactHighlight[]
+  className?: string
+}) {
   if (!highlights?.length) {
     return null
   }
@@ -551,7 +606,10 @@ function HighlightsList({highlights, className}: {highlights?: ImpactHighlight[]
   return (
     <ul className={['space-y-3', className].filter(Boolean).join(' ')}>
       {highlights.map((highlight) => (
-        <li key={highlight._key} className="flex items-start gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-4">
+        <li
+          key={highlight._key}
+          className="flex items-start gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-4"
+        >
           {highlight.metricValue ? (
             <div className="flex min-w-[88px] flex-col items-center justify-center rounded-xl bg-white px-3 py-2 text-center">
               <span className="text-lg font-semibold text-gray-900">{highlight.metricValue}</span>
@@ -622,10 +680,13 @@ function EmptyState() {
   return (
     <section className="container px-4 py-32 sm:px-6">
       <div className="rounded-3xl border border-dashed border-gray-200 bg-gray-50 p-12 text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.5em] text-gray-500">No resume found</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.5em] text-gray-500">
+          No resume found
+        </p>
         <h1 className="mt-4 text-3xl font-semibold text-gray-900">Bring your portfolio online</h1>
         <p className="mt-2 text-base text-gray-600">
-          Create a Resume document in your content workspace and this page will unlock live editing instantly.
+          Create a Resume document in your content workspace and this page will unlock live editing
+          instantly.
         </p>
         <a
           href={studioUrl}
