@@ -11,10 +11,16 @@ const navItems = [
   {href: '#credentials', label: 'Credentials'},
 ]
 
+type ResumeBasics = {
+  fullName?: string
+  headline?: string
+}
+
 export default async function Header() {
-  const {data: resume} = await sanityFetch({
+  const {data} = await sanityFetch({
     query: resumeBasicsQuery,
   })
+  const resume = (data ?? null) as ResumeBasics | null
 
   return (
     <header className="fixed inset-0 z-50 h-24 bg-white/80 backdrop-blur-lg">

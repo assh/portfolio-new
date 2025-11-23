@@ -2,10 +2,17 @@ import {studioUrl} from '@/sanity/lib/api'
 import {resumeBasicsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 
+type ResumeBasics = {
+  fullName?: string
+  headline?: string
+  location?: string
+}
+
 export default async function Footer() {
-  const {data: resume} = await sanityFetch({
+  const {data} = await sanityFetch({
     query: resumeBasicsQuery,
   })
+  const resume = (data ?? null) as ResumeBasics | null
 
   return (
     <footer id="contact" className="bg-gray-900 text-white">
