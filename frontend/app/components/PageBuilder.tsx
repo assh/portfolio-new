@@ -25,7 +25,7 @@ type PageData = {
 }
 
 /**
- * The PageBuilder component is used to render the blocks from the `pageBuilder` field in the Page type in your Sanity Studio.
+ * The PageBuilder component renders blocks from the `pageBuilder` field inside the content workspace.
  */
 
 function renderSections(pageBuilderSections: PageBuilderSection[], page: GetPageQueryResult) {
@@ -62,7 +62,7 @@ function renderEmptyState(page: GetPageQueryResult) {
       <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
         This page has no content!
       </h1>
-      <p className="mt-2 text-base text-gray-500">Open the page in Sanity Studio to add content.</p>
+      <p className="mt-2 text-base text-gray-500">Open the page in your editor to add content.</p>
       <div className="mt-10 flex">
         <Link
           className="rounded-full flex gap-2 mr-6 items-center bg-black hover:bg-brand focus:bg-blue py-3 px-6 text-white transition-colors duration-200"

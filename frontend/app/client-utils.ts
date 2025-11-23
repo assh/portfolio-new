@@ -7,7 +7,7 @@ export function handleError(error: unknown) {
   if (isCorsOriginError(error)) {
     // If the error is a CORS origin error, let's display that specific error.
     const {addOriginUrl} = error
-    toast.error(`Sanity Live couldn't connect`, {
+    toast.error(`Live content couldn't connect`, {
       description: `Your origin is blocked by CORS policy`,
       duration: Infinity,
       action: addOriginUrl

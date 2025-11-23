@@ -1,26 +1,42 @@
-export default function Footer() {
+import {studioUrl} from '@/sanity/lib/api'
+import {resumeBasicsQuery} from '@/sanity/lib/queries'
+import {sanityFetch} from '@/sanity/lib/live'
+
+export default async function Footer() {
+  const {data: resume} = await sanityFetch({
+    query: resumeBasicsQuery,
+  })
+
   return (
-    <footer className="bg-gray-50 relative">
-      <div className="absolute inset-0 bg-[url(/images/tile-grid-black.png)] bg-size-[17px] opacity-20 bg-position-[0_1]" />
-      <div className="container relative">
-        <div className="flex flex-col items-center py-28 lg:flex-row">
-          <h3 className="mb-10 text-center text-4xl font-mono leading-tight tracking-tighter lg:mb-0 lg:w-1/2 lg:pr-4 lg:text-left lg:text-2xl">
-            Built with Sanity + Next.js.
-          </h3>
-          <div className="flex flex-col gap-3 items-center justify-center lg:w-1/2 lg:flex-row lg:pl-4">
+    <footer id="contact" className="bg-gray-900 text-white">
+      <div className="container space-y-10 px-4 py-16 sm:px-6">
+        <div className="grid gap-10 lg:grid-cols-3">
+          <div>
+            <p className="text-2xl font-semibold">{resume?.fullName || 'Your name here'}</p>
+            <p className="mt-1 text-sm uppercase tracking-[0.3em] text-white/70">{resume?.headline || ''}</p>
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-[0.4em] text-white/60">Based in</p>
+            <p className="mt-2 text-lg text-white/90">{resume?.location || 'Anywhere on the internet'}</p>
+            <p className="mt-4 text-sm text-white/70">
+              Updates made in the private editor sync with this site instantly thanks to the Live Content API.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3">
             <a
-              href="https://github.com/sanity-io/sanity-template-nextjs-clean"
-              className="rounded-full flex gap-2 font-mono whitespace-nowrap items-center bg-black hover:bg-blue focus:bg-blue py-3 px-6 text-white transition-colors duration-200"
+              href={studioUrl}
               target="_blank"
               rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-gray-900 transition-colors duration-200 hover:bg-gray-200"
             >
-              View on GitHub
+              Open editor
             </a>
-            <a href="https://nextjs.org/docs" className="mx-3 hover:underline font-mono">
-              Read Next.js Documentation
-            </a>
+            <p className="text-sm text-white/70">Launch the Presentation tool and update any section with on-page drafts.</p>
           </div>
         </div>
+        <p className="border-t border-white/10 pt-6 text-xs uppercase tracking-[0.3em] text-white/50">
+          © {new Date().getFullYear()} {resume?.fullName || 'Portfolio'} · Crafted with live Visual Editing workflows
+        </p>
       </div>
     </footer>
   )

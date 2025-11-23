@@ -1,24 +1,30 @@
-import {person} from './documents/person'
-import {page} from './documents/page'
-import {post} from './documents/post'
-import {callToAction} from './objects/callToAction'
-import {infoSection} from './objects/infoSection'
-import {settings} from './singletons/settings'
-import {link} from './objects/link'
-import {blockContent} from './objects/blockContent'
-
-// Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
+import {certificationType} from './documents/certificationType'
+import {educationType} from './documents/educationType'
+import {experienceType} from './documents/experienceType'
+import {languageType} from './documents/languageType'
+import {projectType} from './documents/projectType'
+import {publicationType} from './documents/publicationType'
+import {resumeType} from './documents/resumeType'
+import {skillCategoryType} from './documents/skillCategoryType'
+import {externalLinkType} from './objects/externalLinkType'
+import {impactHighlightType} from './objects/impactHighlightType'
+import {narrativePortableTextType} from './objects/narrativePortableTextType'
+import {timePeriodType} from './objects/timePeriodType'
 
 export const schemaTypes = [
-  // Singletons
-  settings,
   // Documents
-  page,
-  post,
-  person,
+  resumeType,
+  experienceType,
+  educationType,
+  projectType,
+  publicationType,
+  certificationType,
+  skillCategoryType,
+  languageType,
+
   // Objects
-  blockContent,
-  infoSection,
-  callToAction,
-  link,
+  timePeriodType,
+  impactHighlightType,
+  externalLinkType,
+  narrativePortableTextType,
 ]

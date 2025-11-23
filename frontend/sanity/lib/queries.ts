@@ -2,6 +2,108 @@ import {defineQuery} from 'next-sanity'
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]`)
 
+export const resumeBasicsQuery = defineQuery(`
+  *[_type == "resume"][0]{
+    fullName,
+    headline,
+    location,
+  }
+`)
+
+export const resumeQuery = defineQuery(`
+  *[_type == "resume"][0]{
+    _id,
+    fullName,
+    headline,
+    location,
+    summary,
+    experiences[]->{
+      _id,
+      role,
+      organization,
+      location,
+      employmentType,
+      industryFocus,
+      summary,
+      period,
+      engagementStatus,
+      tooling,
+      highlights[]{
+        _key,
+        body,
+        metricValue,
+        metricDescription,
+      },
+    },
+    projects[]->{
+      _id,
+      title,
+      role,
+      objective,
+      summary,
+      period,
+      status,
+      technologies,
+      links[]{
+        _key,
+        label,
+        url,
+      },
+      highlights[]{
+        _key,
+        body,
+        metricValue,
+        metricDescription,
+      },
+    },
+    education[]->{
+      _id,
+      degree,
+      institution,
+      location,
+      studyType,
+      period,
+      classStanding,
+      modules,
+      summary,
+    },
+    publications[]->{
+      _id,
+      title,
+      publisher,
+      location,
+      category,
+      publishedAt,
+      summary,
+      citation,
+      links[]{
+        _key,
+        label,
+        url,
+      },
+    },
+    certifications[]->{
+      _id,
+      name,
+      issuer,
+      location,
+      issuedAt,
+      credentialId,
+      verificationUrl,
+    },
+    skillCategories[]->{
+      _id,
+      label,
+      skills,
+    },
+    languages[]->{
+      _id,
+      name,
+      proficiency,
+    },
+  }
+`)
+
 const postFields = /* groq */ `
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
