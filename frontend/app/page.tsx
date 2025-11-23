@@ -168,9 +168,10 @@ const narrativeComponents: PortableTextComponents = {
 }
 
 export default async function Page() {
-  const {data: resume} = await sanityFetch<Resume | null>({
+  const {data} = await sanityFetch({
     query: resumeQuery,
   })
+  const resume = (data ?? null) as Resume | null
 
   if (!resume) {
     return <EmptyState />
