@@ -177,13 +177,13 @@ export default async function Page() {
     return <EmptyState />
   }
 
-  const experiences = resume.experiences || []
-  const projects = resume.projects || []
-  const education = resume.education || []
-  const certifications = resume.certifications || []
-  const publications = resume.publications || []
-  const skillCategories = resume.skillCategories || []
-  const languages = resume.languages || []
+  const experiences = (resume.experiences || []).filter(isDefined)
+  const projects = (resume.projects || []).filter(isDefined)
+  const education = (resume.education || []).filter(isDefined)
+  const certifications = (resume.certifications || []).filter(isDefined)
+  const publications = (resume.publications || []).filter(isDefined)
+  const skillCategories = (resume.skillCategories || []).filter(isDefined)
+  const languages = (resume.languages || []).filter(isDefined)
 
   const yearsOfExperience = calculateYearsOfExperience(experiences)
 
@@ -638,6 +638,10 @@ function EmptyState() {
       </div>
     </section>
   )
+}
+
+function isDefined<T>(value: T | null | undefined): value is T {
+  return value !== null && value !== undefined
 }
 
 function calculateYearsOfExperience(experiences: Experience[]) {
