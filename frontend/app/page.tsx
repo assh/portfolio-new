@@ -255,10 +255,6 @@ export default async function Page() {
               </li>
             ))}
           </ul>
-          <p className="mt-6 text-sm text-gray-600">
-            Every detail is managed in your private editing workspace. Visual Editing keeps this
-            page live as you draft new copy.
-          </p>
         </div>
       </section>
 
@@ -684,18 +680,6 @@ function EmptyState() {
           No resume found
         </p>
         <h1 className="mt-4 text-3xl font-semibold text-gray-900">Bring your portfolio online</h1>
-        <p className="mt-2 text-base text-gray-600">
-          Create a Resume document in your content workspace and this page will unlock live editing
-          instantly.
-        </p>
-        <a
-          href={studioUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition-colors duration-200 hover:bg-blue"
-        >
-          Open editor
-        </a>
       </div>
     </section>
   )

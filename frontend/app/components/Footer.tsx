@@ -25,24 +25,10 @@ export default async function Footer() {
           <div>
             <p className="text-xs uppercase tracking-[0.4em] text-white/60">Based in</p>
             <p className="mt-2 text-lg text-white/90">{resume?.location || 'Anywhere on the internet'}</p>
-            <p className="mt-4 text-sm text-white/70">
-              Updates made in the private editor sync with this site instantly thanks to the Live Content API.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <a
-              href={studioUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-gray-900 transition-colors duration-200 hover:bg-gray-200"
-            >
-              Open editor
-            </a>
-            <p className="text-sm text-white/70">Launch the Presentation tool and update any section with on-page drafts.</p>
           </div>
         </div>
         <p className="border-t border-white/10 pt-6 text-xs uppercase tracking-[0.3em] text-white/50">
-          © {new Date().getFullYear()} {resume?.fullName || 'Portfolio'} · Crafted with live Visual Editing workflows
+          © {new Date().getFullYear()} {resume?.fullName || 'Portfolio'}
         </p>
       </div>
     </footer>
