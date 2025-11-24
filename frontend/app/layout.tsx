@@ -2,6 +2,7 @@ import './globals.css'
 
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata} from 'next'
+import Script from 'next/script'
 import {Inter} from 'next/font/google'
 import {draftMode} from 'next/headers'
 import {VisualEditing, toPlainText} from 'next-sanity'
@@ -59,10 +60,14 @@ const inter = Inter({
 
 export default async function RootLayout({children}: {children: React.ReactNode}) {
   const {isEnabled: isDraftMode} = await draftMode()
+  const themeScript = `(function(){try{var e='portfolio-theme',t=localStorage.getItem(e)||'system',n=window.matchMedia('(prefers-color-scheme: dark)'),r=t==='system'?(n.matches?'dark':'light'):t;document.documentElement.classList.toggle('dark',r==='dark');document.documentElement.style.colorScheme=r;}catch(o){console.error(o)}})();`
 
   return (
-    <html lang="en" className={`${inter.variable} bg-white text-black`}>
-      <body>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="bg-white text-black transition-colors duration-300 dark:bg-gray-950 dark:text-gray-50">
+        <Script id="theme-script" strategy="beforeInteractive">
+          {themeScript}
+        </Script>
         <section className="min-h-screen pt-24">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           <Toaster />

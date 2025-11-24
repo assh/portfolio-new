@@ -143,9 +143,12 @@ const publicationCategoryLabels: Record<NonNullable<Publication['category']>, st
 
 const narrativeComponents: PortableTextComponents = {
   block: {
-    normal: ({children}) => <p className="leading-relaxed text-balance">{children}</p>,
-    h2: ({children}) => <h2 className="text-xl font-semibold text-gray-900">{children}</h2>,
-    h3: ({children}) => <h3 className="text-lg font-semibold text-gray-900">{children}</h3>,
+    h2: ({children}) => (
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{children}</h2>
+    ),
+    h3: ({children}) => (
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{children}</h3>
+    ),
   },
   marks: {
     link: ({children, value}) => {
@@ -159,7 +162,7 @@ const narrativeComponents: PortableTextComponents = {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-cyan-700 underline decoration-dotted underline-offset-4"
+          className="text-cyan-700 underline decoration-dotted underline-offset-4 dark:text-cyan-300"
         >
           {children}
         </a>
@@ -219,21 +222,21 @@ export default async function Page() {
         className="container grid gap-12 px-4 pb-20 pt-10 sm:px-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:pt-16"
       >
         <div className="space-y-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-gray-500">
+          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-gray-500 dark:text-gray-400">
             Portfolio in real time
           </p>
           <div>
-            <h1 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl lg:text-6xl">
               {resume.fullName || 'Your name here'}
             </h1>
-            <p className="mt-3 text-2xl font-light text-gray-600 sm:text-3xl">
+            <p className="mt-3 text-2xl font-light text-gray-600 dark:text-gray-300 sm:text-3xl">
               {resume.headline || 'Showcase your expertise with live, editable content.'}
             </p>
-            <p className="mt-2 text-sm uppercase tracking-[0.4em] text-gray-500">
+            <p className="mt-2 text-sm uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">
               {resume.location || 'Location managed in your CMS'}
             </p>
           </div>
-          <NarrativeCopy className="text-lg text-gray-700" value={resume.summary} />
+          <NarrativeCopy className="text-lg text-gray-700 dark:text-gray-300" value={resume.summary} />
           <div className="flex flex-wrap gap-3">
             <a
               href="#experience"
@@ -243,15 +246,13 @@ export default async function Page() {
             </a>
           </div>
         </div>
-        <div className="rounded-3xl border border-gray-100 bg-gray-50 p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-gray-500">Snapshot</p>
+        <div className="rounded-3xl border border-gray-100 bg-gray-50 p-8 dark:border-gray-800 dark:bg-gray-900">
+          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">Snapshot</p>
           <ul className="mt-6 grid gap-6">
             {stats.map((stat) => (
-              <li key={stat.label} className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-3xl font-semibold text-gray-900">{stat.value}</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.4em] text-gray-500">
-                  {stat.label}
-                </p>
+              <li key={stat.label} className="rounded-2xl bg-white p-5 shadow-sm dark:bg-gray-950">
+                <p className="text-3xl font-semibold text-gray-900 dark:text-white">{stat.value}</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">{stat.label}</p>
               </li>
             ))}
           </ul>
@@ -276,7 +277,7 @@ function ExperienceSection({experiences}: {experiences: Experience[]}) {
   }
 
   return (
-    <section id="experience" className="bg-gray-50">
+    <section id="experience" className="bg-gray-50 dark:bg-gray-950/40">
       <div className="container px-4 py-16 sm:px-6 lg:py-24">
         <SectionHeading
           eyebrow="Making impact"
@@ -287,30 +288,37 @@ function ExperienceSection({experiences}: {experiences: Experience[]}) {
           {experiences.map((experience) => (
             <article
               key={experience._id}
-              className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm"
+              className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900"
             >
               <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500">
+                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">
                     {experience.employmentType
                       ? employmentLabels[experience.employmentType]
                       : 'Experience'}
                     {experience.industryFocus ? ` • ${experience.industryFocus}` : ''}
                   </p>
-                  <h3 className="mt-1 text-2xl font-semibold text-gray-900">{experience.role}</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="mt-1 text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                    {experience.role}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
                     {[experience.organization, experience.location].filter(Boolean).join(' • ')}
                   </p>
                 </div>
-                <div className="text-sm font-mono uppercase tracking-[0.3em] text-gray-500">
+                <div className="text-sm font-mono uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
                   {formatPeriod(experience.period)}
                 </div>
               </div>
-              <NarrativeCopy className="mt-6 text-base text-gray-700" value={experience.summary} />
+              <NarrativeCopy
+                className="mt-6 text-base text-gray-700 dark:text-gray-300"
+                value={experience.summary}
+              />
               <HighlightsList className="mt-6" highlights={experience.highlights} />
               {experience.tooling?.length ? (
                 <div className="mt-6">
-                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500">Tooling</p>
+                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">
+                    Tooling
+                  </p>
                   <TagList className="mt-3" items={experience.tooling} />
                 </div>
               ) : null}
@@ -338,28 +346,30 @@ function ProjectsSection({projects}: {projects: Project[]}) {
         {projects.map((project) => (
           <article
             key={project._id}
-            className="flex flex-col rounded-3xl border border-gray-100 bg-white p-8 shadow-sm"
+            className="flex flex-col rounded-3xl border border-gray-100 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900"
           >
             <div className="flex flex-col gap-4">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500">
+                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">
                     {project.status ? projectStatusLabels[project.status] : 'Project'}
                   </p>
-                  <h3 className="mt-1 text-xl font-semibold text-gray-900">{project.title}</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="mt-1 text-xl font-semibold text-gray-900 dark:text-gray-100">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
                     {[project.role, project.objective].filter(Boolean).join(' • ')}
                   </p>
                 </div>
-                <span className="text-xs font-mono uppercase tracking-[0.3em] text-gray-500">
+                <span className="text-xs font-mono uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
                   {formatPeriod(project.period)}
                 </span>
               </div>
-              <NarrativeCopy className="text-base text-gray-700" value={project.summary} />
+              <NarrativeCopy className="text-base text-gray-700 dark:text-gray-300" value={project.summary} />
               <HighlightsList className="mt-4" highlights={project.highlights} />
               {project.technologies?.length ? (
                 <div className="mt-4">
-                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500">Stack</p>
+                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">Stack</p>
                   <TagList className="mt-3" items={project.technologies} />
                 </div>
               ) : null}
@@ -372,7 +382,7 @@ function ProjectsSection({projects}: {projects: Project[]}) {
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-gray-900 transition-colors duration-200 hover:border-gray-900"
+                        className="inline-flex items-center rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-gray-900 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:text-gray-100 dark:hover:border-gray-500"
                       >
                         {link.label || 'View link'}
                       </a>
@@ -400,7 +410,7 @@ function SkillsSection({
   }
 
   return (
-    <section id="skills" className="bg-gray-50">
+    <section id="skills" className="bg-gray-50 dark:bg-gray-950/40">
       <div className="container px-4 py-16 sm:px-6 lg:py-24">
         <SectionHeading
           eyebrow="Capabilities"
@@ -412,27 +422,27 @@ function SkillsSection({
             {skillCategories.map((category) => (
               <div
                 key={category._id}
-                className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm"
+                className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
               >
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
                   {category.label}
                 </p>
                 <TagList className="mt-4" items={category.skills} />
               </div>
             ))}
           </div>
-          <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+          <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
               Languages
             </p>
             <ul className="mt-4 space-y-4">
               {languages.map((language) => (
                 <li
                   key={language._id}
-                  className="flex items-center justify-between rounded-2xl bg-gray-50 p-4"
+                  className="flex items-center justify-between rounded-2xl bg-gray-50 p-4 dark:bg-gray-800"
                 >
-                  <span className="text-lg font-semibold text-gray-900">{language.name}</span>
-                  <span className="text-xs uppercase tracking-[0.4em] text-gray-500">
+                  <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">{language.name}</span>
+                  <span className="text-xs uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">
                     {language.proficiency ? proficiencyLabels[language.proficiency] : ''}
                   </span>
                 </li>
@@ -470,27 +480,29 @@ function CredentialsSection({
           {education.map((item) => (
             <div
               key={item._id}
-              className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm"
+              className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
             >
               <div className="flex flex-col gap-2">
-                <p className="text-xs uppercase tracking-[0.4em] text-gray-500">
+                <p className="text-xs uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">
                   {item.studyType ? studyLabels[item.studyType] : 'Education'}
                 </p>
-                <h3 className="text-xl font-semibold text-gray-900">{item.degree}</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                  {item.degree}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
                   {[item.institution, item.location].filter(Boolean).join(' • ')}
                 </p>
-                <p className="text-xs font-mono uppercase tracking-[0.3em] text-gray-500">
+                <p className="text-xs font-mono uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
                   {formatPeriod(item.period)}
                 </p>
                 {item.classStanding ? (
-                  <p className="text-sm text-gray-600">Honours: {item.classStanding}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Honours: {item.classStanding}</p>
                 ) : null}
               </div>
-              <NarrativeCopy className="mt-4 text-sm text-gray-700" value={item.summary} />
+              <NarrativeCopy className="mt-4 text-sm text-gray-700 dark:text-gray-300" value={item.summary} />
               {item.modules?.length ? (
                 <div className="mt-4">
-                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500">
+                  <p className="text-xs uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">
                     Highlighted modules
                   </p>
                   <TagList className="mt-3" items={item.modules} />
@@ -501,22 +513,22 @@ function CredentialsSection({
         </div>
         <div className="space-y-6">
           {certifications.length ? (
-            <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+            <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
                 Certifications
               </p>
               <ul className="mt-4 space-y-4">
                 {certifications.map((cert) => (
-                  <li key={cert._id} className="rounded-2xl bg-gray-50 p-4">
+                  <li key={cert._id} className="rounded-2xl bg-gray-50 p-4 dark:bg-gray-800">
                     <div className="flex flex-col gap-1">
-                      <p className="text-base font-semibold text-gray-900">{cert.name}</p>
-                      <p className="text-sm text-gray-600">{cert.issuer}</p>
-                      <p className="text-xs font-mono uppercase tracking-[0.3em] text-gray-500">
+                      <p className="text-base font-semibold text-gray-900 dark:text-gray-100">{cert.name}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{cert.issuer}</p>
+                      <p className="text-xs font-mono uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
                         {formatDateValue(cert.issuedAt, 'MMM d, yyyy')}
                         {cert.location ? ` • ${cert.location}` : ''}
                       </p>
                       {cert.credentialId ? (
-                        <p className="text-xs text-gray-500">Credential ID: {cert.credentialId}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Credential ID: {cert.credentialId}</p>
                       ) : null}
                     </div>
                     {cert.verificationUrl ? (
@@ -535,29 +547,31 @@ function CredentialsSection({
             </div>
           ) : null}
           {publications.length ? (
-            <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
+            <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
                 Publications
               </p>
               <ul className="mt-4 space-y-4">
                 {publications.map((publication) => (
-                  <li key={publication._id} className="rounded-2xl bg-gray-50 p-4">
+                  <li key={publication._id} className="rounded-2xl bg-gray-50 p-4 dark:bg-gray-800">
                     <div className="flex flex-col gap-1">
-                      <p className="text-base font-semibold text-gray-900">{publication.title}</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-base font-semibold text-gray-900 dark:text-gray-100">
+                        {publication.title}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
                         {[publication.publisher, publication.location].filter(Boolean).join(' • ')}
                       </p>
-                      <p className="text-xs font-mono uppercase tracking-[0.3em] text-gray-500">
+                      <p className="text-xs font-mono uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
                         {publication.category
                           ? `${publicationCategoryLabels[publication.category]} • `
                           : ''}
                         {formatDateValue(publication.publishedAt, 'MMM d, yyyy')}
                       </p>
                       {publication.summary ? (
-                        <p className="text-sm text-gray-700">{publication.summary}</p>
+                        <p className="text-sm text-gray-700 dark:text-gray-300">{publication.summary}</p>
                       ) : null}
                       {publication.citation ? (
-                        <p className="text-xs text-gray-500">Citation: {publication.citation}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Citation: {publication.citation}</p>
                       ) : null}
                     </div>
                     {publication.links?.length ? (
@@ -569,7 +583,7 @@ function CredentialsSection({
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-gray-900 transition-colors duration-200 hover:border-gray-900"
+                              className="inline-flex items-center rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-gray-900 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:text-gray-100 dark:hover:border-gray-500"
                             >
                               {link.label || 'View'}
                             </a>
@@ -604,19 +618,19 @@ function HighlightsList({
       {highlights.map((highlight) => (
         <li
           key={highlight._key}
-          className="flex items-start gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-4"
+          className="flex items-start gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900"
         >
           {highlight.metricValue ? (
-            <div className="flex min-w-[88px] flex-col items-center justify-center rounded-xl bg-white px-3 py-2 text-center">
-              <span className="text-lg font-semibold text-gray-900">{highlight.metricValue}</span>
+            <div className="flex min-w-[88px] flex-col items-center justify-center rounded-xl bg-white px-3 py-2 text-center dark:bg-gray-800">
+              <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">{highlight.metricValue}</span>
               {highlight.metricDescription ? (
-                <span className="text-[0.6rem] uppercase tracking-[0.4em] text-gray-500">
+                <span className="text-[0.6rem] uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400">
                   {highlight.metricDescription}
                 </span>
               ) : null}
             </div>
           ) : null}
-          <p className="text-sm text-gray-700">{highlight.body}</p>
+          <p className="text-sm text-gray-700 dark:text-gray-300">{highlight.body}</p>
         </li>
       ))}
     </ul>
@@ -633,7 +647,7 @@ function TagList({items, className}: {items?: string[]; className?: string}) {
       {items.map((item, index) => (
         <span
           key={`${item}-${index}`}
-          className="rounded-full border border-gray-200 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-gray-600"
+          className="rounded-full border border-gray-200 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-gray-600 dark:border-gray-700 dark:text-gray-300"
         >
           {item}
         </span>
@@ -648,7 +662,7 @@ function NarrativeCopy({value, className}: {value?: NarrativeValue; className?: 
   }
 
   return (
-    <div className={['space-y-4', className].filter(Boolean).join(' ')}>
+    <div className={['space-y-4 leading-relaxed text-balance', className].filter(Boolean).join(' ')}>
       <PortableText components={narrativeComponents} value={value} />
     </div>
   )
@@ -665,9 +679,11 @@ function SectionHeading({
 }) {
   return (
     <div className="max-w-2xl space-y-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.5em] text-gray-500">{eyebrow}</p>
-      <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">{title}</h2>
-      <p className="text-base text-gray-600">{description}</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.5em] text-gray-500 dark:text-gray-400">
+        {eyebrow}
+      </p>
+      <h2 className="text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">{title}</h2>
+      <p className="text-base text-gray-600 dark:text-gray-300">{description}</p>
     </div>
   )
 }
@@ -675,11 +691,24 @@ function SectionHeading({
 function EmptyState() {
   return (
     <section className="container px-4 py-32 sm:px-6">
-      <div className="rounded-3xl border border-dashed border-gray-200 bg-gray-50 p-12 text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.5em] text-gray-500">
+      <div className="rounded-3xl border border-dashed border-gray-200 bg-gray-50 p-12 text-center dark:border-gray-800 dark:bg-gray-900">
+        <p className="text-sm font-semibold uppercase tracking-[0.5em] text-gray-500 dark:text-gray-400">
           No resume found
         </p>
-        <h1 className="mt-4 text-3xl font-semibold text-gray-900">Bring your portfolio online</h1>
+        <h1 className="mt-4 text-3xl font-semibold text-gray-900 dark:text-gray-100">
+          Bring your portfolio online
+        </h1>
+        <p className="mt-2 text-base text-gray-600 dark:text-gray-300">
+          Create a Resume document in your content workspace and this page will unlock live editing instantly.
+        </p>
+        <a
+          href={studioUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition-colors duration-200 hover:bg-blue"
+        >
+          Open editor
+        </a>
       </div>
     </section>
   )

@@ -15,8 +15,8 @@ export default async function Footer() {
   const resume = (data ?? null) as ResumeBasics | null
 
   return (
-    <footer id="contact" className="bg-gray-900 text-white">
-      <div className="container space-y-10 px-4 py-16 sm:px-6">
+    <footer id="contact" className="bg-gray-900 text-white transition-colors duration-300 dark:bg-black">
+      <div className="container space-y-10 px-4 py-16 text-white sm:px-6">
         <div className="grid gap-10 lg:grid-cols-3">
           <div>
             <p className="text-2xl font-semibold">{resume?.fullName || 'Your name here'}</p>
@@ -27,7 +27,7 @@ export default async function Footer() {
             <p className="mt-2 text-lg text-white/90">{resume?.location || 'Anywhere on the internet'}</p>
           </div>
         </div>
-        <p className="border-t border-white/10 pt-6 text-xs uppercase tracking-[0.3em] text-white/50">
+        <p className="border-t border-white/10 pt-6 text-xs uppercase tracking-[0.3em] text-white/60">
           © {new Date().getFullYear()} {resume?.fullName || 'Portfolio'}
         </p>
       </div>
